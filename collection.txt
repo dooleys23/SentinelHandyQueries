@@ -27,4 +27,4 @@ and ProcessCommandLine contains "PID"
 // Higher confidence mechanism of identifying USB events via CLI
 DeviceProcessEvents
 | where TimeGenerated > ago(14d)
-| where ProcessCommandLine contains "USB\\VID"
+| where ProcessCommandLine matches regex @"(?i)(USB\\VID).*(PID)"
