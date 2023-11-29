@@ -1,0 +1,18 @@
+# Get USB plugin events
+DeviceEvents
+| where ActionType == "UsbDevicePluggedIn"
+| project TimeGenerated, ActionType, InitiatingUser, DeviceName, Vendor, DriveLetter, DeviceId
+
+  # All processes run with full local permissions
+  DeviceProcessEvents
+| where InitiatingProcessTokenElevation == "TokenElevationTypeFull"
+| project TimeGenerated, DeviceName, InitiatingProcessAccountName, InitiatingProcessCommandLine, InitiatingProcessTokenElevation
+
+  # Devices that haven't been scanned in 30 days
+DeviceTvmSecureConfigurationAssessment
+| where Timestamp > ago(30d)
+| where ConfigurationId == "AntivirusScanType" 
+| where ConfigurationSubId == "FullScan"
+| where ComplianceStatus == "NonCompliant"
+| summarize arg_max(Timestamp, *) by DeviceName
+| project DeviceName, Timestamp, ComplianceStatus, ConfigurationSubId
