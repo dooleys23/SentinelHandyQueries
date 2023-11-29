@@ -1,14 +1,14 @@
-# Get USB plugin events
+// Get USB plugin events
 DeviceEvents
 | where ActionType == "UsbDevicePluggedIn"
 | project TimeGenerated, ActionType, InitiatingUser, DeviceName, Vendor, DriveLetter, DeviceId
 
-  # All processes run with full local permissions
-  DeviceProcessEvents
+// All processes run with full local permissions
+DeviceProcessEvents
 | where InitiatingProcessTokenElevation == "TokenElevationTypeFull"
 | project TimeGenerated, DeviceName, InitiatingProcessAccountName, InitiatingProcessCommandLine, InitiatingProcessTokenElevation
 
-  # Devices that haven't been scanned in 30 days
+// Devices that haven't been scanned in 30 days
 DeviceTvmSecureConfigurationAssessment
 | where Timestamp > ago(30d)
 | where ConfigurationId == "AntivirusScanType" 
@@ -16,3 +16,15 @@ DeviceTvmSecureConfigurationAssessment
 | where ComplianceStatus == "NonCompliant"
 | summarize arg_max(Timestamp, *) by DeviceName
 | project DeviceName, Timestamp, ComplianceStatus, ConfigurationSubId
+
+// Identify USB plugin events through command line args with VID or PID
+DeviceProcessEvents
+| where TimeGenerated > ago(1d)
+| where ProcessCommandLine contains "VID"
+and ProcessCommandLine contains "PID"
+| summarize count() by FileName, ProcessVersionInfoInternalFileName
+
+// Higher confidence mechanism of identifying USB events via CLI
+DeviceProcessEvents
+| where TimeGenerated > ago(14d)
+| where ProcessCommandLine contains "USB\\VID"
