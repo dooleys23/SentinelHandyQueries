@@ -28,3 +28,18 @@ and ProcessCommandLine contains "PID"
 DeviceProcessEvents
 | where TimeGenerated > ago(14d)
 | where ProcessCommandLine matches regex @"(?i)(USB\\VID).*(PID)"
+
+
+// Make a series of USB devices plugged in per day per device per drive letter
+let start_time = toscalar(DeviceEvents | summarize min(TimeGenerated));
+let end_time = toscalar(DeviceEvents | summarize max(TimeGenerated));
+DeviceEvents
+| where ActionType == 'UsbDriveMounted'
+| extend DriveLetter_ = tostring(AdditionalFields.DriveLetter)
+| extend Manufacturer_ = tostring(AdditionalFields.Manufacturer)
+| extend ProductName_ = tostring(AdditionalFields.ProductName)
+| extend ProductRevision_ = tostring(AdditionalFields.ProductRevision)
+| extend SerialNumber_ = tostring(AdditionalFields.SerialNumber)
+| summarize Count = count() by bin(TimeGenerated, 1d), DeviceName
+| make-series Count = sum(Count) default = 0 on TimeGenerated from start_time to end_time step 1d by DeviceName
+| project TimeGenerated, DeviceName, Count
