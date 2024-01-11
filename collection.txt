@@ -76,3 +76,21 @@ DeviceNetworkInfo
          SubnetPrefix = tostring(IPAddresses.SubnetPrefix),
          SubnetCIDR = strcat(IPAddress, "/", SubnetPrefix)
 | summarize Hosts = count() by SubnetCIDR, NetworkAdapterType
+
+
+
+
+
+
+
+
+DeviceNetworkInfo
+| where TimeGenerated > ago(3h)
+| where ConnectedNetworks[0].Description contains "network name"
+   or ConnectedNetworks[1].Description contains "network name"
+   or ConnectedNetworks[2].Description contains "network name"
+| mv-expand IPAddresses
+| extend IPAddress = tostring(IPAddresses.IPAddress),
+         SubnetPrefix = tostring(IPAddresses.SubnetPrefix),
+         SubnetCIDR = strcat(IPAddress, "/", SubnetPrefix)
+| summarize IPAddresses = make_set(IPAddress) by SubnetCIDR, NetworkAdapterType
