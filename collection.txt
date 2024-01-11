@@ -62,3 +62,17 @@ or ConnectedNetworks[2].Description contains "network name"
 | extend IPAddress2_ = tostring(IPAddresses[1].IPAddress)
 | extend SubnetPrefix2_ = tostring(IPAddresses[1].SubnetPrefix)
 | project IPAddress_, SubnetPrefix_, IPAddress2_, SubnetPrefix2_, NetworkAdapterType
+
+
+
+
+DeviceNetworkInfo
+| where TimeGenerated > ago(3h)
+| where ConnectedNetworks[0].Description contains "network name"
+   or ConnectedNetworks[1].Description contains "network name"
+   or ConnectedNetworks[2].Description contains "network name"
+| mv-expand IPAddresses
+| extend IPAddress = tostring(IPAddresses.IPAddress),
+         SubnetPrefix = tostring(IPAddresses.SubnetPrefix),
+         SubnetCIDR = strcat(IPAddress, "/", SubnetPrefix)
+| summarize Hosts = count() by SubnetCIDR, NetworkAdapterType
