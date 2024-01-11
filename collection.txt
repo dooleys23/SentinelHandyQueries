@@ -107,3 +107,28 @@ DeviceNetworkInfo
          SubnetPrefix = tostring(IPAddresses.SubnetPrefix),
          SubnetCIDR = strcat(IPAddress, "/", SubnetPrefix)
 | summarize IPAddresses = make_set(IPAddress) by SubnetCIDR, NetworkAdapterType
+
+
+
+
+
+
+
+
+
+DeviceNetworkInfo
+| where TimeGenerated > ago(3h)
+| where ConnectedNetworks[0].Description contains "network name"
+   or ConnectedNetworks[1].Description contains "network name"
+   or ConnectedNetworks[2].Description contains "network name"
+| mv-expand IPAddresses
+| extend IPAddress = tostring(IPAddresses.IPAddress),
+         SubnetPrefix = toint(IPAddresses.SubnetPrefix)
+| extend NetworkAddress = iif(SubnetPrefix <= 24, strcat(split(IPAddress, ".")[0], ".", split(IPAddress, ".")[1], ".", split(IPAddress, ".")[2], ".0"),
+                              iif(SubnetPrefix <= 16, strcat(split(IPAddress, ".")[0], ".", split(IPAddress, ".")[1], ".0.0"),
+                                  iif(SubnetPrefix <= 8, strcat(split(IPAddress, ".")[0], ".0.0.0", true, IPAddress)
+                                     )
+                             )
+         )
+| extend SubnetCIDR = strcat(NetworkAddress, "/", tostring(SubnetPrefix))
+| summarize IPAddresses = make_set(IPAddress) by SubnetCIDR, NetworkAdapterType
