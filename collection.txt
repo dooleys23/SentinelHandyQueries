@@ -43,3 +43,22 @@ DeviceEvents
 | summarize Count = count() by bin(TimeGenerated, 1d), DeviceName
 | make-series Count = sum(Count) default = 0 on TimeGenerated from start_time to end_time step 1d by DeviceName
 | project TimeGenerated, DeviceName, Count
+
+
+
+
+
+
+
+
+// Get the subnets being used by Defender Onboarded Devices
+DeviceNetworkInfo
+| where TimeGenerated > ago(3h)
+| where ConnectedNetworks[0].Description contains "network name"
+or ConnectedNetworks[1].Description contains "network name"
+or ConnectedNetworks[2].Description contains "network name"
+| extend IPAddress_ = tostring(IPAddresses[0].IPAddress)
+| extend SubnetPrefix_ = tostring(IPAddresses[0].SubnetPrefix)
+| extend IPAddress2_ = tostring(IPAddresses[1].IPAddress)
+| extend SubnetPrefix2_ = tostring(IPAddresses[1].SubnetPrefix)
+| project IPAddress_, SubnetPrefix_, IPAddress2_, SubnetPrefix2_, NetworkAdapterType
