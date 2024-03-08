@@ -155,3 +155,8 @@ SecurityIncident
 | extend HostName_ = tostring(EntitiesParsed.HostName)
 | extend DeviceId_ = tostring(EntitiesParsed.MdatpDeviceId)
 | distinct IncidentNumber, Title, AlertName, HostName_, DeviceId_
+
+
+
+SigninLogs
+| getschema
