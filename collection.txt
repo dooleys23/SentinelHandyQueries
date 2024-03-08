@@ -132,3 +132,26 @@ DeviceNetworkInfo
          )
 | extend SubnetCIDR = strcat(NetworkAddress, "/", tostring(SubnetPrefix))
 | summarize IPAddresses = make_set(IPAddress) by SubnetCIDR, NetworkAdapterType
+
+
+
+
+
+
+
+
+# Get device names and dfe machine id's for incidents with ransomware in the title
+
+SecurityIncident
+| where TimeGenerated > ago(14d)
+| where Title contains "ransomware"
+| extend AlertIdsParsed = parse_json(AlertIds)
+| mv-expand AlertIdsParsed
+| extend AlertIdsParsedStr = tostring(AlertIdsParsed)
+| join kind=inner SecurityAlert on $left.AlertIdsParsedStr == $right.SystemAlertId
+| extend EntitiesParsed = parse_json(Entities)
+| mv-expand EntitiesParsed
+| where EntitiesParsed.Type == "host" and EntitiesParsed.MdatpDeviceId != ""
+| extend HostName_ = tostring(EntitiesParsed.HostName)
+| extend DeviceId_ = tostring(EntitiesParsed.MdatpDeviceId)
+| distinct IncidentNumber, Title, AlertName, HostName_, DeviceId_
