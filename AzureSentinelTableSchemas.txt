@@ -1,0 +1,564 @@
+## Azure Sentinel Table Schemas
+
+This document provides a list of Azure Sentinel tables and their respective column structures. 
+
+**Please note:** This information is for general guidance only and may not be completely exhaustive.  For the most up-to-date and complete schema information, refer to the official Azure Sentinel documentation and use KQL queries with the "getschema" operator.
+
+**Table: AuditLogs**
+
+- TimeGenerated: datetime
+- CorrelationId: string
+- OperationName: string
+- OperationVersion: string
+- Status: string
+- Category: string
+- ResourceType: string
+- ResourceGroupName: string
+- ResourceId: string
+- SubcriptionId: string
+- TenantId: string
+- CallerIpAddress: string
+- Claims: string
+- Properties: string
+- AdditionalProperties: string
+
+**Table: AzureActivity**
+
+- TimeGenerated: datetime
+- ResourceId: string
+- OperationName: string
+- Category: string
+- Level: string
+- Properties: string
+- Status: string
+- SubcriptionId: string
+- TenantId: string
+- EventTimestamp: datetime
+- CorrelationId: string
+- Caller: string
+- Claims: string
+- HttpRequestId: string
+
+**Table: AzureDiagnostics**
+
+- TimeGenerated: datetime
+- ResourceId: string
+- Category: string
+- OperationName: string
+- Level: string
+- Properties: string
+
+**Table: AzureMetrics**
+
+- TimeGenerated: datetime
+- ResourceId: string
+- MetricName: string
+- Value: real
+- Minimum: real
+- Maximum: real
+- Average: real
+- Count: real
+- TimeGrain: timespan
+- Properties: string
+
+**Table: Heartbeat**
+
+- TimeGenerated: datetime
+- ResourceProvider: string
+- ResourceType: string
+- ResourceName: string
+- ResourceId: string
+- Status: string
+- DetailLevel: string
+- Message: string
+- Solution: string
+
+**Table: SigninLogs**
+
+- TimeGenerated: datetime
+- CorrelationId: string
+- AppDisplayName: string
+- AppId: string
+- ConditionalAccessStatus: string
+- DeviceDetail: string
+- EventDetail: string
+- IPAddress: string
+- Location: string
+- ResourceDisplayName: string
+- ResourceId: string
+- RiskDetail: string
+- RiskLevelAggregated: string
+- RiskLevelDuringSignIn: string
+- RiskState: string
+- Status: string
+- UserDisplayName: string
+- UserId: string
+- UserPrincipalName: string
+
+**Table: Syslog**
+
+- TimeGenerated: datetime
+- Facility: int
+- Severity: int
+- Hostname: string
+- ProcessName: string
+- ProcessID: string
+- AppName: string
+- Message: string
+
+**Table: Usage**
+
+- TimeGenerated: datetime
+- UsageUnit: string
+- QuantityUsed: real
+- ResourceID: string
+- ResourceType: string
+- Location: string
+- SubcriptionId: string
+
+**Table: AlertsInfo**
+
+- TimeGenerated: datetime
+- AlertName: string
+- AlertSeverity: string
+- AlertDescription: string
+- ProviderName: string
+- ProviderAlertId: string
+- RemediationSteps: string
+- ExtendedProperties: string
+- SystemAlertId: string
+- WorkspaceName: string
+
+**Table: Anomalies**
+
+- TimeGenerated: datetime
+- AnomalyId: guid
+- AnomalyScore: real
+- AnomalyConfidenceScore: real
+- VendorName: string
+- ProductName: string
+- AnomalyType: string
+- ResourceType: string
+- ResourceName: string
+- ResourceGroup: string
+- SubcriptionId: string
+- WorkspaceId: string
+- ExtendedProperties: string
+- AnomalyStartDateTimeUtc: datetime
+- AnomalyEndDateTimeUtc: datetime
+
+**Table: AzureSecurityEvents**
+
+- TimeGenerated: datetime
+- SubscriptionId: string
+- ResourceGroup: string
+- ResourceType: string
+- ResourceName: string
+- ResourceId: string
+- EventId: string
+- Level: string
+- Status: string
+- EventTime: datetime
+- Properties: string
+
+**Table: CommonSecurityLog**
+
+- TimeGenerated: datetime
+- Computer: string
+- Channel: string
+- ProviderName: string
+- EventId: int
+- Task: int
+- Level: string
+- Keywords: string
+- EventTime: datetime
+- EventDescription: string
+- User: string
+- Domain: string
+- EventData: string
+- ManagementGroupName: string
+- TenantId: string
+- SourceSystem: string
+- ExtendedProperties: string
+
+**Table: DeviceEvents**
+
+- TimeGenerated: datetime
+- Computer: string
+- AdditionalFields: string
+- ProviderName: string
+- EventId: int
+
+**Table: DeviceFileCertificateInfo**
+
+- TimeGenerated: datetime
+- DeviceName: string
+- Subject: string
+- Issuer: string
+- Thumbprint: string
+- NotBefore: datetime
+- NotAfter: datetime
+- SerialNumber: string
+- Sha1: string
+- MD5: string
+
+**Table: DeviceFileEvents**
+
+- TimeGenerated: datetime
+- DeviceName: string
+- FolderPath: string
+- FileName: string
+- SHA256: string
+- MD5: string
+- FileSize: long
+- ProcessId: int
+- Initiated: string
+
+**Table: DeviceFileLoadEvents**
+
+- TimeGenerated: datetime
+- DeviceName: string
+- SHA256: string
+- MD5: string
+- ProcessId: int
+- ImagePath: string
+- UserAccount: string
+
+**Table: DeviceImageEvents**
+
+- TimeGenerated: datetime
+- DeviceName: string
+- ImageName: string
+- ImageSha256: string
+
+**Table: DeviceLogonEvents**
+
+- TimeGenerated: datetime
+- DeviceName: string
+- SubjectUserName: string
+- IPAddress: string
+- LogonType: string
+
+**Table: DeviceNetworkEvents**
+
+- TimeGenerated: datetime
+- DeviceName: string
+- DstPort: int
+- DstIPAddr: string
+- Protocol: string
+- SrcIPAddr: string
+
+**Table: DeviceNetworkingInfo**
+
+- TimeGenerated: datetime
+- DeviceName: string
+- NetworkInterface: string
+- LocalIP: string
+- MacAddress: string
+
+**Table: DeviceProcessEvents**
+
+- TimeGenerated: datetime
+- DeviceName: string
+- ProcessName: string
+- ProcessVersion: string
+- DeviceTime: datetime
+- ProcessId: long
+- ParentProcessId: long
+- UserAccount: string
+- ImagePath: string
+- CommandLine: string
+- CurrentDirectory: string
+- SHA1: string
+- MD5: string
+- SHA256: string
+
+**Table: DeviceRegistryEvents**
+
+- TimeGenerated: datetime
+- DeviceName: string
+- EventType: string
+- RegistryKey: string
+- RegistryValueName: string
+- RegistryOldValueData: string
+- RegistryValueData: string
+- ProcessId: int
+
+**Table: DeviceSecurityEvents**
+
+- TimeGenerated: datetime
+- DeviceName: string
+- SubjectUserSid: string
+- SubjectUserName: string
+- SubjectDomainName: string
+- SubjectLogonId: string
+- PrivilegeName: string
+
+**Table: DeviceTelemetryInfo**
+
+- TimeGenerated: datetime
+- DeviceName: string
+- DeviceType: string
+- OsName: string
+- OsVersion: string
+
+**Table: EmailEvents**
+
+- TimeGenerated: datetime
+- SenderFromAddress: string
+- SenderFromName: string
+- SenderToRecipientAddress: string
+- InternetMessageId: string
+- Subject: string
+- BodyPreview: string
+- AttachmentCount: int
+- DeliveryAction: string
+- DeliveryLocation: string
+
+**Table: EmailPostDeliveryEvents**
+
+- TimeGenerated: datetime
+- RecipientEmailAddress: string
+- DeliveryStatus: string
+- DeliveryAction: string
+- DetectionMethods: string
+- PhishVerdict: string
+- SpamVerdict: string
+- MalwareVerdict: string
+
+**Table: EmailUrlInfo**
+
+- TimeGenerated: datetime
+- Url: string
+- EmailSubjectLine: string
+- EmailSenderAddress: string
+- EmailInternetMessageId: string
+- EmailRecipientAddress: string
+
+**Table: IdentityDirectoryEvents**
+
+- TimeGenerated: datetime
+- Identity: string
+- TenantId: string
+- IpAddress: string
+- ActivityDisplayName: string
+- ActivityDateTime: datetime
+- ActivityType: string
+- ResourceType: string
+- OperationType: string
+- ResultStatus: string
+- AdditionalDetails: string
+
+**Table: IdentityLogonEvents**
+
+- TimeGenerated: datetime
+- Identity: string
+- TenantId: string
+- ApplicationDisplayName: string
+- AuthenticationRequirement: string
+- ClientAppUsed: string
+- ConditionalAccessStatus: string
+- DeviceDetail: string
+- EventDetail: string
+- IPAddress: string
+- IsInteractive: bool
+, - Location: string
+- ResourceDisplayName: string
+- RiskDetail: string
+- RiskLevelAggregated: string
+- RiskLevelDuringSignIn: string
+- RiskState: string
+- Status: string
+- TokenIssuerType: string
+
+**Table: OfficeActivity**
+
+- TimeGenerated: datetime
+- Operation: string
+, - UserType: string
+, - UserKey: string
+, - ExternalUserState: string
+, - ClientIP: string
+, - RecordType: string
+, - UserAgent: string
+, - OfficeWorkload: string
+, - ExtendedProperties: string
+, - ResultStatus: string
+, - ItemCount: long
+, - Location: string
+
+**Table: Office365Events**
+
+- TimeGenerated: datetime
+- CreationTime: datetime
+, - UserType: string
+, - UserKey: string
+, - ExternalUserState: string
+, - ClientIP: string
+, - RecordType: string
+, - UserAgent: string
+, - OfficeWorkload: string
+, - ExtendedProperties: string
+, - ResultStatus: string
+
+**Table: SecurityAlert**
+
+- TimeGenerated: datetime
+- TimeReceived: datetime
+- AlertName: string
+, - AlertSeverity: string
+, - AlertDescription: string
+, - ProviderName: string
+, - ProviderAlertId: string
+, - RemediationSteps: string
+, - ExtendedProperties: string
+, - SystemAlertId: string
+, - ProductName: string
+, - ProductComponentName: string
+, - AlertType: string
+, - VendorName: string
+, - IsIncident: bool
+, - TenantId: string
+, - SubcriptionId: string
+, - ResourceGroup: string
+, - ResourceType: string
+, - ResourceId: string
+, - WorkspaceName: string
+
+**Table: SecurityAudit**
+
+- TimeGenerated: datetime
+, - ActivitySubcategoryId: string
+, - ActivityType: string
+, - CallerIpAddress: string
+, - Category: string
+, - CorrelationId: string
+, - EventData: string
+, - Level: string
+, - OperationName: string
+, - Properties: string
+, - ResourceGroupName: string
+, - ResourceId: string
+, - ResourceType: string
+, - Status: string
+, - SubcriptionId: string
+, - TenantId: string
+
+**Table: SecurityEvent**
+
+- TimeGenerated: datetime
+, - EventID: int
+, - EventData: string
+, - Computer: string
+, - SubjectUserSid: string
+, - SubjectUserName: string
+, - SubjectDomainName: string
+, - SubjectLogonId: string
+, - TargetUserSid: string
+, - TargetUserName: string
+, - TargetDomainName: string
+, - TargetLogonId: string
+, - EventTime: datetime
+
+**Table: SentinelIncident**
+
+- TimeGenerated: datetime
+, - IncidentNumber: int
+, - Title: string
+, - Severity: string
+, - Status: string
+, - Owner: string
+, - Classification: string
+, - ClassificationReason: string
+, - FirstActivityTimeUtc: datetime
+, - LastActivityTimeUtc: datetime
+, - CreatedTimeUtc: datetime
+, - LastModifiedTimeUtc: datetime
+, - TenantId: string
+, - ProviderName: string
+, - ProviderIncidentId: string
+
+**Table: UrlClickEvents**
+
+- TimeGenerated: datetime
+, - Url: string
+, - ClickTime: datetime
+, - ClientIP: string
+, - CountryCode: string
+, - City: string
+, - UserAgent: string
+, - DeliveryAction: string
+
+**Table: UrlListEvents**
+
+- TimeGenerated: datetime
+, - Url: string
+, - State: string
+
+**Table: UnixEvents**
+
+- TimeGenerated: datetime
+, - EventTime: datetime
+, - Source: string
+, - SyslogFacility: string
+, - SyslogSeverity: string
+, - Hostname: string
+, - ProcessName: string
+, - ProcessID: string
+, - AppName: string
+, - Message: string
+
+**Table: Watchlist**
+
+- TimeGenerated: datetime
+, - WatchlistAlias: string
+, - EntryId: string
+, - Entry: string
+, - Source: string
+, - Title: string
+, - Description: string
+, - CreatedAt: datetime
+, - UpdatedAt: datetime
+, - IsDeleted: bool
+, - DeletedAt: datetime
+, - WatchlistType: string
+, - CreatedBy: string
+, - UpdatedBy: string
+, - DeletedBy: string
+, - TenantId: string
+, - Provider: string
+
+**Table: BehavioralAnalytics**
+
+- TimeGenerated: datetime
+, - TenantId: string
+, - AlertType: string
+, - AlertName: string
+, - AlertDescription: string
+, - AlertSeverity: string
+, - ConfidenceScore: int
+, - CompromisedEntity: string
+, - ExtendedProperties: string
+, - IsIncident: bool
+, - RemediationSteps: string
+, - SystemAlertId: string
+
+**Table: IdentityInfo**
+
+- TimeGenerated: datetime
+, - UserPrincipalName: string
+, - DisplayName: string
+, - UserType: string
+, - AccountEnabled: string
+, - FirstSeen: datetime
+, - LastSeen: datetime
+, - Location: string
+, - RiskLevel: string
+, - UserRiskLevel: string
+, - Groups: string
+, - PeerGroupNames: string
+, - Manager: string
+, - Title: string
+, - Department: string
+
+**Please note:** This list may not be completely exhaustive or fully up-to-date. Refer to the Azure Sentinel documentation and utilize KQL queries with "getschema" operator for accurate and comprehensive schema information. 
